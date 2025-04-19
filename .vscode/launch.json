@@ -1,0 +1,22 @@
+{
+  "configurations": [
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:Eye-to-home}/HelloXcodeCLI",
+      "name": "Debug HelloXcodeCLI (HelloXcodeCLI)",
+      "program": "${workspaceFolder:Eye-to-home}/HelloXcodeCLI/.build/debug/HelloXcodeCLI",
+      "preLaunchTask": "swift: Build Debug HelloXcodeCLI (HelloXcodeCLI)"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:Eye-to-home}/HelloXcodeCLI",
+      "name": "Release HelloXcodeCLI (HelloXcodeCLI)",
+      "program": "${workspaceFolder:Eye-to-home}/HelloXcodeCLI/.build/release/HelloXcodeCLI",
+      "preLaunchTask": "swift: Build Release HelloXcodeCLI (HelloXcodeCLI)"
+    }
+  ]
+}
