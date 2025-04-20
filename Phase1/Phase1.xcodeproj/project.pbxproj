@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		EA2C081E2DB46BDF002478D2 /* Phase1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Phase1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA485A182DB47CD4005614EA /* Phase1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Phase1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		EA2C08202DB46BDF002478D2 /* Phase1 */ = {
+		EA485A1A2DB47CD4005614EA /* Phase1 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Phase1;
 			sourceTree = "<group>";
@@ -19,7 +19,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EA2C081B2DB46BDF002478D2 /* Frameworks */ = {
+		EA485A152DB47CD4005614EA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -29,18 +29,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EA2C08152DB46BDF002478D2 = {
+		EA485A0F2DB47CD4005614EA = {
 			isa = PBXGroup;
 			children = (
-				EA2C08202DB46BDF002478D2 /* Phase1 */,
-				EA2C081F2DB46BDF002478D2 /* Products */,
+				EA485A1A2DB47CD4005614EA /* Phase1 */,
+				EA485A192DB47CD4005614EA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		EA2C081F2DB46BDF002478D2 /* Products */ = {
+		EA485A192DB47CD4005614EA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA2C081E2DB46BDF002478D2 /* Phase1.app */,
+				EA485A182DB47CD4005614EA /* Phase1.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,64 +48,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EA2C081D2DB46BDF002478D2 /* Phase1 */ = {
+		EA485A172DB47CD4005614EA /* Phase1 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EA2C082C2DB46BE0002478D2 /* Build configuration list for PBXNativeTarget "Phase1" */;
+			buildConfigurationList = EA485A262DB47CD5005614EA /* Build configuration list for PBXNativeTarget "Phase1" */;
 			buildPhases = (
-				EA2C081A2DB46BDF002478D2 /* Sources */,
-				EA2C081B2DB46BDF002478D2 /* Frameworks */,
-				EA2C081C2DB46BDF002478D2 /* Resources */,
+				EA485A142DB47CD4005614EA /* Sources */,
+				EA485A152DB47CD4005614EA /* Frameworks */,
+				EA485A162DB47CD4005614EA /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				EA2C08202DB46BDF002478D2 /* Phase1 */,
+				EA485A1A2DB47CD4005614EA /* Phase1 */,
 			);
 			name = Phase1;
 			packageProductDependencies = (
 			);
 			productName = Phase1;
-			productReference = EA2C081E2DB46BDF002478D2 /* Phase1.app */;
+			productReference = EA485A182DB47CD4005614EA /* Phase1.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EA2C08162DB46BDF002478D2 /* Project object */ = {
+		EA485A102DB47CD4005614EA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					EA2C081D2DB46BDF002478D2 = {
+					EA485A172DB47CD4005614EA = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = EA2C08192DB46BDF002478D2 /* Build configuration list for PBXProject "Phase1" */;
+			buildConfigurationList = EA485A132DB47CD4005614EA /* Build configuration list for PBXProject "Phase1" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = EA2C08152DB46BDF002478D2;
+			mainGroup = EA485A0F2DB47CD4005614EA;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = EA2C081F2DB46BDF002478D2 /* Products */;
+			productRefGroup = EA485A192DB47CD4005614EA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EA2C081D2DB46BDF002478D2 /* Phase1 */,
+				EA485A172DB47CD4005614EA /* Phase1 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		EA2C081C2DB46BDF002478D2 /* Resources */ = {
+		EA485A162DB47CD4005614EA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -115,7 +115,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EA2C081A2DB46BDF002478D2 /* Sources */ = {
+		EA485A142DB47CD4005614EA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -125,7 +125,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EA2C082A2DB46BE0002478D2 /* Debug */ = {
+		EA485A242DB47CD5005614EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -188,7 +188,7 @@
 			};
 			name = Debug;
 		};
-		EA2C082B2DB46BE0002478D2 /* Release */ = {
+		EA485A252DB47CD5005614EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -244,7 +244,7 @@
 			};
 			name = Release;
 		};
-		EA2C082D2DB46BE0002478D2 /* Debug */ = {
+		EA485A272DB47CD5005614EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -255,12 +255,14 @@
 				DEVELOPMENT_TEAM = KWUYLSDKJC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -274,7 +276,7 @@
 			};
 			name = Debug;
 		};
-		EA2C082E2DB46BE0002478D2 /* Release */ = {
+		EA485A282DB47CD5005614EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -285,12 +287,14 @@
 				DEVELOPMENT_TEAM = KWUYLSDKJC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,25 +311,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EA2C08192DB46BDF002478D2 /* Build configuration list for PBXProject "Phase1" */ = {
+		EA485A132DB47CD4005614EA /* Build configuration list for PBXProject "Phase1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA2C082A2DB46BE0002478D2 /* Debug */,
-				EA2C082B2DB46BE0002478D2 /* Release */,
+				EA485A242DB47CD5005614EA /* Debug */,
+				EA485A252DB47CD5005614EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA2C082C2DB46BE0002478D2 /* Build configuration list for PBXNativeTarget "Phase1" */ = {
+		EA485A262DB47CD5005614EA /* Build configuration list for PBXNativeTarget "Phase1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA2C082D2DB46BE0002478D2 /* Debug */,
-				EA2C082E2DB46BE0002478D2 /* Release */,
+				EA485A272DB47CD5005614EA /* Debug */,
+				EA485A282DB47CD5005614EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EA2C08162DB46BDF002478D2 /* Project object */;
+	rootObject = EA485A102DB47CD4005614EA /* Project object */;
 }
