@@ -71,6 +71,21 @@ struct StaticColorRealityView: UIViewRepresentable {
                 Float.random(in: 0...3),  // Random y position in [1, 5] meters (height above plane)
                 Float.random(in: -3...3)  // Random z position in [-3, 3] meters
             ]
+            // Create a 3D text entity with "Hello James"
+            let textMesh = MeshResource.generateText(
+                "Hello James",
+                extrusionDepth: 0.02,
+                font: .systemFont(ofSize: 0.15),
+                containerFrame: .zero,
+                alignment: .center,
+                lineBreakMode: .byWordWrapping
+            )
+            let textMaterial = SimpleMaterial(color: .white, isMetallic: false)
+            let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
+            // Position the text above the sphere
+            textEntity.position = [0, 0.5, 0]
+            entity.addChild(textEntity)
+
             anchor.addChild(entity)
         }
 
@@ -93,6 +108,21 @@ struct StaticColorRealityView: UIViewRepresentable {
                 Float.random(in: 0...3),  // Random y position in [1, 5] meters (height above plane)
                 Float.random(in: -3...3)  // Random z position in [-3, 3] meters
             ]
+            // Create a 3D text entity with "Hello James"
+            let textMesh = MeshResource.generateText(
+                "Hello James",
+                extrusionDepth: 0.02,
+                font: .systemFont(ofSize: 0.15),
+                containerFrame: .zero,
+                alignment: .center,
+                lineBreakMode: .byWordWrapping
+            )
+            let textMaterial = SimpleMaterial(color: .white, isMetallic: false)
+            let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
+            // Position the text above the cube
+            textEntity.position = [0, 0.5, 0]
+            entity.addChild(textEntity)
+
             anchor.addChild(entity)
         }
 
