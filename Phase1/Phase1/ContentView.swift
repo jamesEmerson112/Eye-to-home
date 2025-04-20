@@ -52,18 +52,11 @@ struct StaticColorRealityView: UIViewRepresentable {
         }
 
         // Create 20 shapes (randomly cubes or spheres).
-        for _ in 0..<8 {
+        for _ in 0..<4 {
             let mesh: MeshResource
-            let yOffset: Float
-            if Bool.random() {
-                // Create a cube with size 0.3m and rounded corners.
-                mesh = MeshResource.generateBox(size: 0.3, cornerRadius: 0.02)
-                yOffset = 0.15 // Half the box height (so it sits on the plane)
-            } else {
-                // Create a sphere with radius 0.4m.
-                mesh = MeshResource.generateSphere(radius: 0.4)
-                yOffset = 0.15 // Center of the sphere (adjust as needed for your visual preference)
-            }
+
+            // Create a sphere with radius 0.4m.
+            mesh = MeshResource.generateSphere(radius: 0.4)
 
             // Assign a random bright color to each shape.
             let material = SimpleMaterial(
@@ -74,8 +67,30 @@ struct StaticColorRealityView: UIViewRepresentable {
             let entity = ModelEntity(mesh: mesh, materials: [material])
             // Place at a random position within the anchor's bounds.
             entity.position = [
-                -4, // - number is North, + number is South
-                1,  // Random y position in [1, 5] meters (height above plane)
+                Float.random(in: -3...3), // - number is North, + number is South
+                Float.random(in: 0...3),  // Random y position in [1, 5] meters (height above plane)
+                Float.random(in: -3...3)  // Random z position in [-3, 3] meters
+            ]
+            anchor.addChild(entity)
+        }
+
+        // Create 20 shapes (randomly cubes or spheres).
+        for _ in 0..<4 {
+            let mesh: MeshResource
+                // Create a cube with size 0.3m and rounded corners.
+                mesh = MeshResource.generateBox(size: 0.5, cornerRadius: 0.02)
+
+            // Assign a random bright color to each shape.
+            let material = SimpleMaterial(
+                color: randomBrightColor(),
+                roughness: 0.15,
+                isMetallic: true
+            )
+            let entity = ModelEntity(mesh: mesh, materials: [material])
+            // Place at a random position within the anchor's bounds.
+            entity.position = [
+                Float.random(in: -3...3), // - number is North, + number is South
+                Float.random(in: 0...3),  // Random y position in [1, 5] meters (height above plane)
                 Float.random(in: -3...3)  // Random z position in [-3, 3] meters
             ]
             anchor.addChild(entity)
