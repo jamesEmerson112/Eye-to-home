@@ -19,24 +19,41 @@ import UIKit
  *   View – SwiftUI protocol for UI components.
  *----------------------------------------------------------*/
 struct ContentView: View {
-    // The main SwiftUI view body, embedding the AR view with colored shapes.
+    // State variable to control when to spawn objects
+    @State private var spawnObjects = false
+
     var body: some View {
-        StaticColorRealityView()
-            .edgesIgnoringSafeArea(.all) // Ignore safe area for full AR experience.
+        ZStack {
+            StaticColorRealityView(spawnObjects: $spawnObjects)
+                .edgesIgnoringSafeArea(.all) // Ignore safe area for full AR experience.
+            VStack {
+                Spacer()
+                Button(action: {
+                    spawnObjects = true
+                    print("Balloons are spawning")
+                }) {
+                    Text("Spawn Fun")
+                        .font(.title2)
+                        .padding()
+                        .background(Color.blue.opacity(0.8))
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                }
+                .padding(.bottom, 40)
+                .disabled(spawnObjects)
+            }
+        }
     }
 }
 
 // MARK: - StaticColorRealityView: UIViewRepresentable for ARView with static-color entities
 
 struct StaticColorRealityView: UIViewRepresentable {
+    @Binding var spawnObjects: Bool
+
     func makeUIView(context: Context) -> ARView {
-        // Start timing: record the current time before creating ARView and shapes.
-        let startTime = CFAbsoluteTimeGetCurrent()
-        let arView = ARView(frame: .zero) // Main AR view
-
-        print("hello James")
-
-        // Create a horizontal plane anchor (4x4 meters) for placing shapes.
+        let arView = ARView(frame: .zero)
+        // Store anchor in coordinator for later use
         let anchor = AnchorEntity(
             .plane(
                 .horizontal,
@@ -44,101 +61,139 @@ struct StaticColorRealityView: UIViewRepresentable {
                 minimumBounds: SIMD2<Float>(4.0, 4.0)
             )
         )
-
-        // Helper to generate a random bright color (random hue, full saturation and brightness)
-        func randomBrightColor() -> UIColor {
-            let hue = CGFloat.random(in: 0...1)
-            return UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
-        }
-
-        // Create 20 shapes (randomly cubes or spheres).
-        for _ in 0..<4 {
-            let mesh: MeshResource
-
-            // Create a sphere with radius 0.4m.
-            mesh = MeshResource.generateSphere(radius: 0.4)
-
-            // Assign a random bright color to each shape.
-            let material = SimpleMaterial(
-                color: randomBrightColor(),
-                roughness: 0.15,
-                isMetallic: true
-            )
-            let entity = ModelEntity(mesh: mesh, materials: [material])
-            // Place at a random position within the anchor's bounds.
-            entity.position = [
-                Float.random(in: -3...3), // - number is North, + number is South
-                Float.random(in: 0...3),  // Random y position in [1, 5] meters (height above plane)
-                Float.random(in: -3...3)  // Random z position in [-3, 3] meters
-            ]
-            // Create a 3D text entity with "Hello James"
-            let textMesh = MeshResource.generateText(
-                "Hello James",
-                extrusionDepth: 0.02,
-                font: .systemFont(ofSize: 0.15),
-                containerFrame: .zero,
-                alignment: .center,
-                lineBreakMode: .byWordWrapping
-            )
-            let textMaterial = SimpleMaterial(color: .white, isMetallic: false)
-            let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
-            // Position the text above the sphere
-            textEntity.position = [0, 0.5, 0]
-            entity.addChild(textEntity)
-
-            anchor.addChild(entity)
-        }
-
-        // Create 20 shapes (randomly cubes or spheres).
-        for _ in 0..<4 {
-            let mesh: MeshResource
-                // Create a cube with size 0.3m and rounded corners.
-                mesh = MeshResource.generateBox(size: 0.5, cornerRadius: 0.02)
-
-            // Assign a random bright color to each shape.
-            let material = SimpleMaterial(
-                color: randomBrightColor(),
-                roughness: 0.15,
-                isMetallic: true
-            )
-            let entity = ModelEntity(mesh: mesh, materials: [material])
-            // Place at a random position within the anchor's bounds.
-            entity.position = [
-                Float.random(in: -3...3), // - number is North, + number is South
-                Float.random(in: 0...3),  // Random y position in [1, 5] meters (height above plane)
-                Float.random(in: -3...3)  // Random z position in [-3, 3] meters
-            ]
-            // Create a 3D text entity with "Hello James"
-            let textMesh = MeshResource.generateText(
-                "Hello James",
-                extrusionDepth: 0.02,
-                font: .systemFont(ofSize: 0.15),
-                containerFrame: .zero,
-                alignment: .center,
-                lineBreakMode: .byWordWrapping
-            )
-            let textMaterial = SimpleMaterial(color: .white, isMetallic: false)
-            let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
-            // Position the text above the cube
-            textEntity.position = [0, 0.5, 0]
-            entity.addChild(textEntity)
-
-            anchor.addChild(entity)
-        }
-
-        // Add the anchor (with all shapes) to the AR scene.
         arView.scene.addAnchor(anchor)
+        context.coordinator.anchor = anchor
+        context.coordinator.arView = arView
 
-        // End timing: record the time after all shapes are added.
-        let endTime = CFAbsoluteTimeGetCurrent()
-        // Print the elapsed time to the Xcode console for profiling.
-        print("DEBUG: Time to create ARView and shapes: \(endTime - startTime) seconds")
+        // Spawn 2 spheres for initialization (no offset)
+        context.coordinator.spawnInitialSpheres()
 
         return arView
     }
 
-    // No update needed for UIViewRepresentable in this case.
-    func updateUIView(_ uiView: ARView, context: Context) {}
+    func updateUIView(_ uiView: ARView, context: Context) {
+        // Only spawn objects if spawnObjects is true and we haven't spawned yet
+        if spawnObjects && !context.coordinator.didSpawn {
+            context.coordinator.didSpawn = true
+            context.coordinator.spawnObjects {
+                // After spawning, allow button to be pressed again
+                DispatchQueue.main.async {
+                    self.spawnObjects = false
+                    context.coordinator.didSpawn = false
+                }
+            }
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    class Coordinator {
+        var didSpawn = false
+        var anchor: AnchorEntity?
+        var arView: ARView?
+        var spawnCount = 0
+        var numToSpawn = 5
+
+        func spawnInitialSpheres() {
+            guard let anchor = anchor else { return }
+            print("Spawning 2 initialization balloons...")
+            func randomBrightColor() -> UIColor {
+                let hue = CGFloat.random(in: 0...1)
+                return UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+            }
+            // Spawn 2 spheres at startup, no offset
+            for _ in 0..<2 {
+                let mesh = MeshResource.generateSphere(radius: 0.8)
+                let material = SimpleMaterial(
+                    color: randomBrightColor(),
+                    roughness: 0.15,
+                    isMetallic: true
+                )
+                let entity = ModelEntity(mesh: mesh, materials: [material])
+                entity.position = [
+                    Float.random(in: -5...5),
+                    Float.random(in: 3...10),
+                    Float.random(in: -5...5)
+                ]
+                anchor.addChild(entity)
+            }
+        }
+
+        func spawnObjects(completion: (() -> Void)? = nil) {
+            guard let anchor = anchor else { return }
+
+            // Increment spawn count for each batch
+            spawnCount += 1
+
+            // Calculate offset for this batch (circular pattern)
+            let angle = Double(spawnCount) * .pi / 4
+            let offsetDistance: Double = 3.0 * Double(spawnCount)
+            let offsetX = cos(angle) * offsetDistance
+            let offsetZ = sin(angle) * offsetDistance
+
+            func randomBrightColor() -> UIColor {
+                let hue = CGFloat.random(in: 0...1)
+                return UIColor(hue: hue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+            }
+
+            // Spheres
+            print("spawning")
+            for _ in 0..<numToSpawn {
+                let mesh = MeshResource.generateSphere(radius: 0.8)
+                let material = SimpleMaterial(
+                    color: randomBrightColor(),
+                    roughness: 0.15,
+                    isMetallic: true
+                )
+                let entity = ModelEntity(mesh: mesh, materials: [material])
+                entity.position = [
+                    Float.random(in: -5...5) + Float(offsetX),
+                    Float.random(in: 3...10),
+                    Float.random(in: -5...5) + Float(offsetZ)
+                ]
+                anchor.addChild(entity)
+            }
+
+            // Increment the number of spheres to spawn for next press
+            numToSpawn += 1
+
+            // Call completion after spawning is done
+            completion?()
+
+            // Cubes
+            /*
+            for _ in 0..<4 {
+                let mesh = MeshResource.generateBox(size: 0.5, cornerRadius: 0.02)
+                let material = SimpleMaterial(
+                    color: randomBrightColor(),
+                    roughness: 0.15,
+                    isMetallic: true
+                )
+                let entity = ModelEntity(mesh: mesh, materials: [material])
+                entity.position = [
+                    Float.random(in: -3...3),
+                    Float.random(in: 0...3),
+                    Float.random(in: -3...3)
+                ]
+                let textMesh = MeshResource.generateText(
+                    "Hello James",
+                    extrusionDepth: 0.02,
+                    font: .systemFont(ofSize: 0.15),
+                    containerFrame: .zero,
+                    alignment: .center,
+                    lineBreakMode: .byWordWrapping
+                )
+                let textMaterial = SimpleMaterial(color: .white, isMetallic: false)
+                let textEntity = ModelEntity(mesh: textMesh, materials: [textMaterial])
+                textEntity.position = [0, 0.5, 0]
+                entity.addChild(textEntity)
+                anchor.addChild(entity)
+            }
+            */
+        }
+    }
 }
 
 // Provides a preview of ContentView for Xcode's canvas.
