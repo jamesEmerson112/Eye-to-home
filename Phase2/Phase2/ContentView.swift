@@ -21,13 +21,41 @@ import UIKit
 struct ContentView: View {
     // State variable to control when to spawn objects
     @State private var spawnObjects = false
+    @State private var showSaveAlert = false
+    @State private var saveError: String?
+    @State private var takeScreenshotTrigger = 0
 
     var body: some View {
         ZStack {
-            StaticColorRealityView(spawnObjects: $spawnObjects)
-                .edgesIgnoringSafeArea(.all) // Ignore safe area for full AR experience.
+            StaticColorRealityView(
+                spawnObjects: $spawnObjects,
+                takeScreenshotTrigger: $takeScreenshotTrigger,
+                onScreenshot: { image in
+                    if let image = image {
+                        saveImageToDownloadFolder(image: image)
+                    } else {
+                        saveError = "Failed to capture screenshot."
+                        showSaveAlert = true
+                    }
+                }
+            )
+            .edgesIgnoringSafeArea(.all) // Ignore safe area for full AR experience.
             VStack {
                 Spacer()
+                // Temporarily hide the "Take Picture" button
+                /*
+                Button(action: {
+                    takeScreenshotTrigger += 1
+                }) {
+                    Text("Take Picture")
+                        .font(.title2)
+                        .padding()
+                        .background(Color.green.opacity(0.8))
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                }
+                .padding(.bottom, 10)
+                */
                 Button(action: {
                     spawnObjects = true
                     print("Balloons are spawning")
@@ -42,7 +70,50 @@ struct ContentView: View {
                 .padding(.bottom, 40)
                 .disabled(spawnObjects)
             }
+            .alert(isPresented: $showSaveAlert) {
+                if let error = saveError {
+                    return Alert(title: Text("Error"), message: Text(error), dismissButton: .default(Text("OK")))
+                } else {
+                    return Alert(title: Text("Saved"), message: Text("Screenshot saved to download folder."), dismissButton: .default(Text("OK")))
+                }
+            }
         }
+    }
+
+    // Save image to "download" folder in app's Documents directory
+    func saveImageToDownloadFolder(image: UIImage) {
+        let fileManager = FileManager.default
+        guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            saveError = "Could not access documents directory."
+            showSaveAlert = true
+            return
+        }
+        let downloadURL = documentsURL.appendingPathComponent("download")
+        if !fileManager.fileExists(atPath: downloadURL.path) {
+            do {
+                try fileManager.createDirectory(at: downloadURL, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                saveError = "Failed to create download folder: \(error.localizedDescription)"
+                showSaveAlert = true
+                return
+            }
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HHmmss"
+        let filename = "screenshot_\(formatter.string(from: Date())).jpg"
+        let fileURL = downloadURL.appendingPathComponent(filename)
+        guard let data = image.jpegData(compressionQuality: 0.95) else {
+            saveError = "Failed to convert screenshot to JPEG."
+            showSaveAlert = true
+            return
+        }
+        do {
+            try data.write(to: fileURL)
+            saveError = nil
+        } catch {
+            saveError = "Failed to save screenshot: \(error.localizedDescription)"
+        }
+        showSaveAlert = true
     }
 }
 
@@ -50,6 +121,8 @@ struct ContentView: View {
 
 struct StaticColorRealityView: UIViewRepresentable {
     @Binding var spawnObjects: Bool
+    @Binding var takeScreenshotTrigger: Int
+    var onScreenshot: (UIImage?) -> Void
 
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
@@ -83,6 +156,11 @@ struct StaticColorRealityView: UIViewRepresentable {
                 }
             }
         }
+        // Take screenshot if trigger changed
+        if context.coordinator.lastScreenshotTrigger != takeScreenshotTrigger {
+            context.coordinator.lastScreenshotTrigger = takeScreenshotTrigger
+            context.coordinator.takeScreenshot(onScreenshot: onScreenshot)
+        }
     }
 
     func makeCoordinator() -> Coordinator {
@@ -95,6 +173,7 @@ struct StaticColorRealityView: UIViewRepresentable {
         var arView: ARView?
         var spawnCount = 0
         var numToSpawn = 5
+        var lastScreenshotTrigger: Int = 0
 
         func spawnInitialSpheres() {
             guard let anchor = anchor else { return }
@@ -193,10 +272,19 @@ struct StaticColorRealityView: UIViewRepresentable {
             }
             */
         }
+
+        func takeScreenshot(onScreenshot: @escaping (UIImage?) -> Void) {
+            guard let arView = arView else {
+                onScreenshot(nil)
+                return
+            }
+            arView.snapshot(saveToHDR: false) { image in
+                onScreenshot(image)
+            }
+        }
     }
 }
 
-// Provides a preview of ContentView for Xcode's canvas.
 #Preview {
     ContentView()
 }
